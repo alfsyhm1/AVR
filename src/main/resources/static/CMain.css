@@ -1,3 +1,4 @@
+/*background*/
 body{
   margin: 0;
   width: 100vw;
@@ -6,6 +7,7 @@ body{
   max-width: 100%;
 }
 
+/*navbar*/
 .container_navbar{
   display: flex;
   padding: 5px 10px;
@@ -59,6 +61,7 @@ body{
   line-height: normal;
 }
 
+/*big brand*/
 .container_brand{
   display: flex;
   height: 581px;
@@ -77,6 +80,7 @@ body{
   line-height: normal;
 }
 
+/*the dropdown starts here*/
 .container_booking{
   display: flex;
   height: 50px;
@@ -106,9 +110,13 @@ body{
   line-height: normal;
 }
 
+/* first dd for room type*/
 .ddroom{
+  position: relative;
+  display: inline-block;
   width: 220px;
   height: 34px;
+  cursor: pointer;
 }
 
 .dd{
@@ -141,7 +149,59 @@ body{
   flex-shrink: 0;
   stroke-width: 2px;
   stroke: #5E6073;
+  transition-duration: 0.8s;
 }
+
+/*dropdown content*/
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 35px;
+  min-width: 225px;
+  border-radius: 10px;
+  background: #F2F4D1;
+  /* Drop Shadow */
+  box-shadow: 0px 460px 129px 0px rgba(0, 0, 0, 0.00), 0px 295px 118px 0px rgba(0, 0, 0, 0.01), 0px 166px 99px 0px rgba(0, 0, 0, 0.05), 0px 74px 74px 0px rgba(0, 0, 0, 0.09), 0px 18px 41px 0px rgba(0, 0, 0, 0.10);
+}
+
+.dropdown-content a{
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  color: #5E6073;
+  font-family: "Playfair Display";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.dropdown-content a:hover{
+  color: #000;
+}
+
+.show{
+  display: block;
+}
+
+.ddroom:hover .dropdown-content{
+  display: block;
+}
+
+.ddroom:hover .ddarrow{
+  transform: rotate(-180deg);
+  transform-origin: bottom;
+}
+
+.ddroom:hover .ddtext{
+  color: black;
+}
+
+.selected{
+  font-family: "Playfair Display";
+  color: #000;
+}
+/*dropdown content ends*/
 
 .container_rooms{
   margin: 40px auto;
