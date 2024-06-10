@@ -28,8 +28,47 @@
       <a href="#" onclick="selectRoom('Suite')">Suite</a>
     </div>
   </div>
+<div class="counterA">
+  <p><button onclick="clickCounterDown()" type="button" class="btnDown">-</button></p>
+  <div id="result" class="btnNo">0</div>
+  <p><button onclick="clickCounterUp()" type="button" class="btnUp">+</button></p>
+
+
+</div>
+
+
 
 <script>
+
+  function clickCounterUp(){
+    if (typeof(Storage) !== "undefined"){
+      if (localStorage.clickcount){
+        localStorage.clickcount = Number(localStorage.clickcount) + 1;
+      }
+      else {
+        localStorage.clickcount = 1;
+      }
+
+      document.getElementById("result").innerHTML = localStorage.clickcount
+    } else {
+      document.getElementById("result").innerHTML = "Error"
+    }
+  }
+
+  function clickCounterDown(){
+    if (typeof(Storage) !== "undefined"){
+      if (localStorage.clickcount){
+        localStorage.clickcount = Number(localStorage.clickcount) - 1;
+      }
+      else {
+        localStorage.clickcount = 1;
+      }
+
+      document.getElementById("result").innerHTML = localStorage.clickcount
+    } else {
+      document.getElementById("result").innerHTML = "Error"
+    }
+  }
   function myFunction() {
     document.getElementById("myDropdown").classList.toggle("show");
   }
