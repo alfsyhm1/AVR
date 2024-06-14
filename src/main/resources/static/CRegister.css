@@ -9,7 +9,9 @@ body{
   height: 100vh;
   flex-shrink: 0;
   background: linear-gradient(0deg, #89A3B2 3.01%, rgba(0, 0, 0, 0.00) 73.03%);
+  align-items: center;
 }
+
 
 
 .container_navbar{
@@ -17,7 +19,7 @@ body{
   padding: 10px;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
   background: #F2F4D1;
   color: #5E6073;
   font-family: Italiana;
@@ -27,18 +29,24 @@ body{
   line-height: normal;
 }
 
+.outer-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+}
+
 .content-container{
-  display: inline-flex;
-  height: 520px;
-  margin-top: 2vw;
-  margin-left: 560px;
+  display: flex;
+  height: 500px;
   padding: 30px 30px 10px;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-shrink: 0;
   border-radius: 30px;
   background: #F2F4D1;
+  gap: 50px;
 
   /* Drop Shadow */
   box-shadow: 0px 460px 129px 0px rgba(0, 0, 0, 0.00), 0px 295px 118px 0px rgba(0, 0, 0, 0.01), 0px 166px 99px 0px rgba(0, 0, 0, 0.05), 0px 74px 74px 0px rgba(0, 0, 0, 0.09), 0px 18px 41px 0px rgba(0, 0, 0, 0.10);
@@ -48,7 +56,7 @@ body{
   color: #5E6073;
   text-align: center;
   font-family: Italiana;
-  font-size: 64px;
+  font-size: 50px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
@@ -56,12 +64,11 @@ body{
 
 input{
   display: flex;
+  height: 25px;
   width: 362px;
   padding: 10px 0px 5px 10px;
-  margin-bottom: 47px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  margin-bottom: 30px;
+  align-items: center;
   border-radius: 10px;
   border: 2px solid #5E6073;
   background: none;
@@ -79,18 +86,19 @@ input{
 
 .button1{
   display: flex;
+  height: 45px;
   width: 375px;
-  padding: 5px 0px 5px 10px;
-  flex-direction: column;
+  padding: 10px;
   justify-content: center;
   align-items: center;
   border-radius: 100px;
   border: 3px solid #5E6073;
   color: #5E6073;
   font-family: "Playfair Display";
-  font-size: 26px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
 }
+
 

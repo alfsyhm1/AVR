@@ -32,8 +32,6 @@
   <p><button onclick="clickCounterDown()" type="button" class="btnDown">-</button></p>
   <div id="result" class="btnNo">0</div>
   <p><button onclick="clickCounterUp()" type="button" class="btnUp">+</button></p>
-
-
 </div>
 
 
@@ -82,8 +80,8 @@
 
   // Close the dropdown menu if the user clicks outside of it
   window.onclick = function(event) {
-    if (!event.target.matches('.dd') && !event.target.closest('.dropdown-content')) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
+    if (!event.target.matches('.dd') && !event.target.closest('.dropdown-content-room')) {
+      var dropdowns = document.getElementsByClassName("dropdown-content-room");
       var i;
       for (i = 0; i < dropdowns.length; i++) {
         var openDropdown = dropdowns[i];
