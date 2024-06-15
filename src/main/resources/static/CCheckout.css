@@ -181,7 +181,7 @@ a {
     font-family: 'Playfair Display', serif; /* Added Playfair Display font */
 }
 
-input, button{
+input{
     background-color: unset;
     border: 2px solid #5E6073;
 }
@@ -189,5 +189,3 @@ input, button{
 input::placeholder{
     opacity: 50%;
 }
-
-form{}

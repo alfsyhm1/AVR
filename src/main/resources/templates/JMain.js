@@ -161,3 +161,26 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+/*to make the button functions to go to the next page*/
+// JMain.js file
+
+// Function to handle checkout button click
+function handleCheckout(event) {
+    event.preventDefault(); // Prevent default form submission
+
+    // Get form data
+    var selectedRoom = document.getElementById('selectedRoom').value;
+    var counterValueAdult = document.getElementById('counterValueAdult').value;
+    var counterValueChild = document.getElementById('counterValueChild').value;
+    var checkinDate = document.getElementById('checkin').value;
+    var checkoutDate = document.getElementById('checkout').value;
+
+    // Redirect to checkout page with query parameters
+    var queryString = `checkout.html?selectedRoom=${selectedRoom}&adults=${counterValueAdult}&children=${counterValueChild}&checkin=${checkinDate}&checkout=${checkoutDate}`;
+    window.location.href = queryString;
+}
+
+// Attach event listener to the Checkout button
+var checkoutButton = document.querySelector('.container_Rnavbar input[type="submit"]');
+checkoutButton.addEventListener('click', handleCheckout);
