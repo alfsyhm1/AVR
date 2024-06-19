@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <link rel="stylesheet" href="../static/CRegister.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
@@ -16,10 +16,10 @@
   <div class="outer-container">
   <div class="content-container">
     <div class="register-text">Register</div>
-    <form>
+    <form action="#" th:action="@{/customers/add}" th:object="${customer}" method="post">
       <div class="input-box">
-        <input type="text" id="fname" name="fname" placeholder="Name">
-        <input type="email" id="email" name="email" placeholder="Email">
+        <input type="text" id="fname" name="fname" placeholder="Name" th:field="*{fname}">
+        <input type="email" id="email" name="email" placeholder="Email" th:field="*{email}">
         <input type="password" id="pass" name="password" placeholder="Password">
         <input type="password" id="cpass" name="cpassword" placeholder="Confirm Password">
         <div class="buttons">

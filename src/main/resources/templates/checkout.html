@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <link rel="stylesheet" href="../static/CCheckout.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
@@ -14,10 +14,10 @@
         <div class="container_Lnavbar">
             <div class="logo"><img src="../static/LogoMain.png"></div>
             <div class="container_Mnavbar">
-                <a href="main.html" class="LHome navbutton">Home</a>
-                <a href="main.html#targetRooms" class="LRooms navbutton">Rooms</a>
-                <a href="main.html#targetPrice" class="LPricing navbutton">Pricing</a>
-                <a href="main.html#targetAbout" class="LAbout  navbutton">About</a>
+                <a href="index.html" class="LHome navbutton">Home</a>
+                <a href="index.html#targetRooms" class="LRooms navbutton">Rooms</a>
+                <a href="index.html#targetPrice" class="LPricing navbutton">Pricing</a>
+                <a href="index.html#targetAbout" class="LAbout  navbutton">About</a>
             </div>
         </div>
     </div>
@@ -37,16 +37,16 @@
                 <div class="bold">RM550.00</div>
             </div>
         </div>
-        <form>
+        <form action="#" th:action="@{/customers/add}" th:object="${customer}" method="post">
         <div class="payment-details">
 
-                <input type="text" class="input-field" placeholder="Cardholder’s Name">
+                <input type="text" th:field="*{fname}" class="input-field" placeholder="Cardholder’s Name">
                 <input type="text" class="input-field" placeholder="Card Number">
                 <div class="input-group">
                     <input type="text" class="input-small" placeholder="Exp Date">
                     <input type="text" class="input-xsmall" placeholder="CVC">
                 </div>
-                <input onclick = "window.location.href='bookingconfirmation.html';" type="submit" class="pay-now-button" value="Pay Now">
+                <input onclick = "window.location.href='bookingconfirmation.html';" type="submit" class="pay-now-button" value="Pay Now" th:value="Save">
 
         </div>
         </form>

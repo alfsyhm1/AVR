@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
   <title>Agua Vista Retreat</title>
@@ -61,7 +61,8 @@
         <a href="#" onclick="selectRoom(event, 'Deluxe')">Deluxe</a>
         <a href="#" onclick="selectRoom(event, 'Suite')">Suite</a>
       </div>
-      <input type="hidden" id="selectedRoom" name="selectedRoom" value="" for="submitbtn">
+      <input type="hidden" id="selectedRoom" name="selectedRoom" value="" for="submitbtn" th:value="${d.roomNum}"
+             th:text="${d.roomtype}">
       <!-- dd content ends here-->
     </div>
     <!--container for dropdown ends here-->
