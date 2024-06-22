@@ -1,82 +1,62 @@
 package com.csc3402.lab.avr.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cust_id")
-    private Integer custid;
+    private int custid;
 
-    @Column(name = "first_name")
-    private String fname;
+    @NotBlank(message = "First name is mandatory")
+    private String firstName;
 
-    @Column(name = "last_name")
-    private String lname;
+    @NotBlank(message = "Last name is mandatory")
+    private String lastName;
 
-    @Column(name = "email")
+    @NotBlank(message = "Email is mandatory")
     private String email;
 
-    @Column(name = "phone")
     private String phone;
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    @ManyToOne
-    @JoinColumn(name = "room_type")
-    private Room room;
+    public Customer() {}
 
-    public Room getRoom() {
-        return room;
-    }
-
-    public void setRoom(Room room) {
-        this.room = room;
-    }
-
-    public Booking getBooking() {
-        return booking;
-    }
-
-    public void setBooking(Booking booking) {
+    public Customer(String firstName, String lastName, String email, String phone, Booking booking) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
         this.booking = booking;
     }
 
-    public Customer(String fname, String lname, String email, String phone) {
-        this.fname = fname;
-        this.lname = lname;
-        this.email = email;
-        this.phone = phone;
-    }
-
-    public Customer() {
-    }
-
-    public Integer getCustid() {
+    // Getters and setters
+    public int getCustid() {
         return custid;
     }
 
-    public void setCustid(Integer custid) {
+    public void setCustid(int custid) {
         this.custid = custid;
     }
 
-    public String getFname() {
-        return fname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLname() {
-        return lname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLname(String lname) {
-        this.lname = lname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -95,14 +75,23 @@ public class Customer {
         this.phone = phone;
     }
 
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
                 "custid=" + custid +
-                ", fname='" + fname + '\'' +
-                ", lname='" + lname + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
+                ", booking=" + booking +
                 '}';
     }
 }

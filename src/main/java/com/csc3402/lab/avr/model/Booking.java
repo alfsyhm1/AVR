@@ -1,57 +1,28 @@
 package com.csc3402.lab.avr.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import java.util.Date;
-import java.util.Set;
-
 
 @Entity
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "booking_id")
-    private Integer bookingId;
-
-    @Column(name = "start")
+    private int bookingId;
     private Date start;
-
-    @Column(name = "end_date")
     private Date endDate;
-
-    @Column(name = "book_date")
     private Date bookDate;
-
-    @Column(name = "notes")
     private String notes;
-
-    @Column(name = "status")
     private String status;
 
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-    private Set<Customer> customers;
-
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-    private Set<Payment> payments;
-
-
-    public Booking() {
-    }
-
-
-    public Booking( Date start, Date endDate, Date bookDate, String notes, String status) {
-        this.start = start;
-        this.endDate = endDate;
-        this.bookDate = bookDate;
-        this.notes = notes;
-        this.status = status;
-    }
-
-
-    public Integer getBookingId() {
+    // Getters and setters
+    public int getBookingId() {
         return bookingId;
     }
 
-    public void setBookingId(Integer bookingId) {
+    public void setBookingId(int bookingId) {
         this.bookingId = bookingId;
     }
 
@@ -95,22 +66,6 @@ public class Booking {
         this.status = status;
     }
 
-    public Set<Customer> getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(Set<Customer> customers) {
-        this.customers = customers;
-    }
-
-    public Set<Payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(Set<Payment> payments) {
-        this.payments = payments;
-    }
-
     @Override
     public String toString() {
         return "Booking{" +
@@ -122,5 +77,4 @@ public class Booking {
                 ", status='" + status + '\'' +
                 '}';
     }
-
 }

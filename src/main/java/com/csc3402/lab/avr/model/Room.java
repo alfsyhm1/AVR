@@ -1,67 +1,42 @@
 package com.csc3402.lab.avr.model;
-import jakarta.persistence.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_num")
-    private Integer roomNum;
-
-    @Column(name = "room_type")
-    private String roomtype;
-
-    @Column(name = "nights")
-    private Integer nights;
-
-    @Column(name = "desc")
+    private int roomId;
+    private String roomType;
+    private double price; // Added price field
     private String desc;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
-    private Set<Customer> customers;
-
-    public Set<Customer> getCustomers() {
-        return customers;
+    // Getters and setters
+    public int getRoomId() {
+        return roomId;
     }
 
-    public void setCustomers(Set<Customer> customers) {
-        this.customers = customers;
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
     }
 
-    public Room() {}
-
-    public Room(Integer roomNum, Integer nights, String desc) {
-        this.roomNum = roomNum;
-        this.nights = nights;
-        this.desc = desc;
+    public String getRoomType() {
+        return roomType;
     }
 
-    // Getters and Setters
-    public Integer getRoomNum() {
-        return roomNum;
+    public void setRoomType(String roomType) {
+        this.roomType = roomType;
     }
 
-    public void setRoomNum(Integer roomNum) {
-        this.roomNum = roomNum;
+    public double getPrice() {
+        return price;
     }
 
-    public String getRoomtype() {
-        return roomtype;
-    }
-
-    public void setRoomtype(String roomtype) {
-        this.roomtype = roomtype;
-    }
-
-    public Integer getNights() {
-        return nights;
-    }
-
-    public void setNights(Integer nights) {
-        this.nights = nights;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public String getDesc() {
@@ -75,11 +50,10 @@ public class Room {
     @Override
     public String toString() {
         return "Room{" +
-                "roomNum=" + roomNum +
-                ", roomtype='" + roomtype + '\'' +
-                ", nights=" + nights +
+                "roomId=" + roomId +
+                ", roomType='" + roomType + '\'' +
+                ", price=" + price +
                 ", desc='" + desc + '\'' +
-                ", customers=" + customers +
                 '}';
     }
 }

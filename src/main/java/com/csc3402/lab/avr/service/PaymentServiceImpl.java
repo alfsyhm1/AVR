@@ -29,7 +29,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public Payment createPayment(Payment payment) {
+    public Payment savePayment(Payment payment) {
         return paymentRepository.save(payment);
     }
 
