@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Agua Vista Retreat - Booking</title>
-  <link rel="stylesheet" href="../static/CMain.css">
+  <title>Agua Vista Retreat</title>
+  <link rel="stylesheet" href="CMain.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <link href='https://fonts.googleapis.com/css?family=Italiana' rel='stylesheet'>
-  <script src="../static/JMain.js"></script>
+  <script src="JMain.js"></script>
 </head>
-
 <body>
 <form id="bookingForm" th:action="@{/checkout}" method="post">
   <!--navbar starts-->
   <div class="container_navbar">
     <div class="container_navbar_content">
       <div class="container_Lnavbar">
-        <div class="logo"><img src="../static/LogoMain.png"></div>
+        <div class="logo"><img src="LogoMain.png"></div>
         <div class="container_Mnavbar">
           <a href="#" class="LHome navbutton">Home</a>
           <a href="#targetRooms" class="LRooms navbutton">Rooms</a>
@@ -23,7 +22,7 @@
           <a href="#targetAbout" class="LAbout navbutton">About</a>
         </div>
       </div>
-      <input type="submit" class="container_Rnavbar navbutton" value="Checkout">
+      <input type="submit" class="container_Rnavbar navbutton" id="checkoutButton" value="Checkout">
     </div>
   </div>
   <!--navbar starts-->
@@ -41,8 +40,8 @@
       <label class="thename roomtype">ROOM TYPE</label>
       <!--container for dropdown starts here-->
       <div class="ddroom">
-        <div class="dd" onclick="myFunction()">
-          <label class="ddtext-room ddtextcolor">Choose a room</label>
+        <div class="dd" onclick="toggleDropdown('myDropdown')">
+          <label id="selectedRoomLabel" class="ddtext-room ddtextcolor">Choose a room</label>
           <div class="ddarrow">
             <svg xmlns="http://www.w3.org/2000/svg" width="19" height="11" viewBox="0 0 19 11" fill="none">
               <path d="M1 1L9.5 9L18 1" stroke="#5E6073" stroke-width="2" stroke-linecap="round"/>
@@ -60,7 +59,8 @@
           <a href="#" onclick="selectRoom(event, 'Deluxe')">Deluxe</a>
           <a href="#" onclick="selectRoom(event, 'Suite')">Suite</a>
         </div>
-        <input type="hidden" id="selectedRoom" name="selectedRoom" th:field="*{selectedRoom}" value="">
+        <input type="hidden" id="selectedRoom" name="selectedRoom" value="">
+        <!-- dd content ends here-->
       </div>
       <!--container for dropdown ends here-->
     </div>
@@ -70,7 +70,7 @@
     <div class="ddbooking">
       <label class="thename guest">GUEST</label>
       <!--container for dropdown starts here-->
-      <div class="ddroom">
+      <div class="ddroom" onclick="toggleDropdown('guestDropdown')">
         <div class="dd">
           <div class="ddtext-guest ddtextcolor">Select guests</div>
           <div class="ddarrow">
@@ -85,14 +85,14 @@
           </svg>
         </div>
         <!-- guest dd content starts here-->
-        <div class="dropdown-content-guest">
+        <div id="guestDropdown" class="dropdown-content-guest">
           <div class="counter-adult">
             <div class="counter-adult-text">Adult</div>
             <div class="counterA">
               <p><button type="button" id="decrement-adult">-</button></p>
               <div id="counter-adult" class="btnNo">0</div>
               <p><button type="button" id="increment-adult">+</button></p>
-              <input type="hidden" name="counterValueAdult" id="counterValueAdult" th:field="*{counterValueAdult}" value="0" required>
+              <input type="hidden" name="counterValueAdult" id="counterValueAdult" value="0" required>
             </div>
           </div>
 
@@ -102,7 +102,7 @@
               <p><button type="button" id="decrement-child">-</button></p>
               <div id="counter-child" class="btnNo">0</div>
               <p><button type="button" id="increment-child">+</button></p>
-              <input type="hidden" name="counterValueChild" id="counterValueChild" th:field="*{counterValueChild}" value="0" required>
+              <input type="hidden" name="counterValueChild" id="counterValueChild" value="0" required>
             </div>
           </div>
         </div>
@@ -118,7 +118,7 @@
         <div class="dd">
           <!-- CHECK-IN dd content starts here-->
           <div class="dropdown-content-checkin">
-            <input type="date" id="checkin" name="checkin" th:field="*{checkin}" required>
+            <input type="date" id="checkin" name="checkin" required>
           </div>
           <!-- CHECK-IN content ends here-->
         </div>
@@ -133,7 +133,7 @@
         <div class="dd">
           <!-- CHECK-OUT dd content starts here-->
           <div class="dropdown-content-checkout">
-            <input type="date" id="checkout" name="checkout" th:field="*{checkout}" required>
+            <input type="date" id="checkout" name="checkout" required>
           </div>
           <!-- CHECK-OUT content ends here-->
         </div>
@@ -186,8 +186,7 @@
       <!--deluxe price starts-->
       <div class="container_pkg_small">
         <div class="container_pkg_small_title">Deluxe</div>
-        <div
-                class="container_pkg_small_list">
+        <div class="container_pkg_small_list">
           <ul>
             <li>Can accommodate a family</li>
             <li>Totally soundproofed</li>
