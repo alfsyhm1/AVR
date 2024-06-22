@@ -28,6 +28,13 @@ public class CustomerController {
     }
 
 
+    @GetMapping("/")
+    public String home(Model model) {
+        // Add necessary attributes to the model
+        model.addAttribute("rooms", roomService.listAllRooms());
+        return "index";
+    }
+
 
     @GetMapping("list")
     public String showUpdateForm(Model model) {
