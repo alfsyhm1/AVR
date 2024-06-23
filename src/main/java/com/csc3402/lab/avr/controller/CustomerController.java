@@ -104,7 +104,7 @@ public class CustomerController {
         return "redirect:/confirmation?bookingId=" + booking.getBookingId();
     }
 
-    @GetMapping("/confirmation")
+    @PostMapping("/confirmation")
     public String confirmation(@RequestParam Integer bookingId, Model model) {
         Booking booking = bookingRepository.findById(bookingId).orElse(null);
         if (booking == null) {

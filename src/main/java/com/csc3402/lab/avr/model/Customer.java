@@ -9,29 +9,31 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int custid;
 
-    @NotBlank(message = "First name is mandatory")
-    private String firstName;
+    @Column(name = "full_name")
+    private String fullName;
 
-    @NotBlank(message = "Last name is mandatory")
-    private String lastName;
-
-    @NotBlank(message = "Email is mandatory")
+    @Column(name = "email")
     private String email;
 
+    @Column(name = "phone")
     private String phone;
 
     @ManyToOne
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private Room room;
+
     public Customer() {}
 
-    public Customer(String firstName, String lastName, String email, String phone, Booking booking) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Customer(String fullName, String email, String phone, Booking booking, Room room) {
+        this.fullName = fullName;
         this.email = email;
         this.phone = phone;
         this.booking = booking;
+        this.room = room;
     }
 
     // Getters and setters
@@ -43,20 +45,12 @@ public class Customer {
         this.custid = custid;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getfullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -83,15 +77,23 @@ public class Customer {
         this.booking = booking;
     }
 
+    public Room getRoom(){
+        return room;
+    }
+
+    public void setRoom(Room room){
+        this.room = room;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
                 "custid=" + custid +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", booking=" + booking +
+                ", room=" + room +
                 '}';
     }
 }

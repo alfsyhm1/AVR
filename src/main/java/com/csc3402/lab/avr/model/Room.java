@@ -1,34 +1,42 @@
 package com.csc3402.lab.avr.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int roomId;
+    @Column(name = "room_id")
+    private Integer roomId;
+
+    @Column(name = "room_type")
     private String roomType;
-    private double price; // Added price field
-    private String desc;
 
-    public Room() {
+    @Column(name = "nights")
+    private Integer nights;
+
+    @Column(name = "description")
+    private String description;
+
+    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
+    private Set<Customer> customers = new HashSet<>();
+
+    public Room() {}
+
+    public Room(Integer roomId, Integer nights, String description) {
+        this.roomId = roomId;
+        this.nights = nights;
+        this.description = description;
     }
 
-    public Room(String roomType, double price, String desc) {
-        this.roomType = roomType;
-        this.price = price;
-        this.desc = desc;
-    }
-
-    // Getters and setters
-    public int getRoomId() {
+    public Integer getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    public void setRoomId(Integer roomId) {
         this.roomId = roomId;
     }
 
@@ -40,29 +48,41 @@ public class Room {
         this.roomType = roomType;
     }
 
-    public double getPrice() {
-        return price;
+    public Integer getNights() {
+        return nights;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setNights(Integer nights) {
+        this.nights = nights;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    public Set<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(Set<Customer> customers) {
+        this.customers = customers;
+    }
+
+
+
 
     @Override
     public String toString() {
         return "Room{" +
                 "roomId=" + roomId +
                 ", roomType='" + roomType + '\'' +
-                ", price=" + price +
-                ", desc='" + desc + '\'' +
+                ", nights=" + nights +
+                ", desc='" + description + '\'' +
+                ", customers=" + customers +
                 '}';
     }
 }
