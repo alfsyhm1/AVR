@@ -14,6 +14,15 @@ public class Room {
     private double price; // Added price field
     private String desc;
 
+    public Room() {
+    }
+
+    public Room(String roomType, double price, String desc) {
+        this.roomType = roomType;
+        this.price = price;
+        this.desc = desc;
+    }
+
     // Getters and setters
     public int getRoomId() {
         return roomId;

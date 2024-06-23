@@ -184,3 +184,10 @@ function handleCheckout(event) {
 // Attach event listener to the Checkout button
 var checkoutButton = document.querySelector('.container_Rnavbar input[type="submit"]');
 checkoutButton.addEventListener('click', handleCheckout);
+
+
+//checkout button
+function redirectToCheckout(event) {
+    event.preventDefault(); // Prevent the form from submitting
+    window.location.href = 'checkout.html'; // Redirect to checkout.html
+}
