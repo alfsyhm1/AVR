@@ -104,15 +104,14 @@ public class CustomerController {
         return "redirect:/confirmation?bookingId=" + booking.getBookingId();
     }
 
-    @PostMapping("/confirmation")
+    @GetMapping("/confirmation")
     public String confirmation(@RequestParam Integer bookingId, Model model) {
         Booking booking = bookingRepository.findById(bookingId).orElse(null);
         if (booking == null) {
             model.addAttribute("errorMessage", "Booking not found");
-            return "error"; // Redirect to an error page or handle appropriately
+            return "error";
         }
         model.addAttribute("booking", booking);
-        return "bookingconfirmation"; // Return the correct Thymeleaf template name
+        return "bookingconfirmation";
     }
-
 }
