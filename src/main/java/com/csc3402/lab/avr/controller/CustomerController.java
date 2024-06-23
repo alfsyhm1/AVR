@@ -1,11 +1,14 @@
 package com.csc3402.lab.avr.controller;
 
-import com.csc3402.lab.avr.model.*;
-import com.csc3402.lab.avr.repository.CustomerRepository;
+import com.csc3402.lab.avr.model.Booking;
+import com.csc3402.lab.avr.model.Payment;
+import com.csc3402.lab.avr.model.Room;
+import com.csc3402.lab.avr.repository.BookingRepository;
 import com.csc3402.lab.avr.repository.PaymentRepository;
 import com.csc3402.lab.avr.repository.RoomRepository;
-import com.csc3402.lab.avr.repository.BookingRepository;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +25,10 @@ import java.util.List;
 @RequestMapping("/")
 public class CustomerController {
 
-    @Autowired
-    private RoomRepository roomRepository;
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
-    private CustomerRepository customerRepository;
+    private RoomRepository roomRepository;
 
     @Autowired
     private PaymentRepository paymentRepository;
@@ -41,92 +43,61 @@ public class CustomerController {
         return "index";
     }
 
-    @GetMapping("/customers/list")
-    public String showCustomerList(Model model) {
-        model.addAttribute("customers", customerRepository.findAll());
-        return "list-customer";
-    }
-
-    @GetMapping("/customers/signup")
-    public String showSignUpForm(Customer customer) {
-        return "register";
-    }
-
-    @PostMapping("/customers/add")
-    public String addCustomer(@Valid Customer customer, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            return "register";
-        }
-        customerRepository.save(customer);
-        return "redirect:/customers/list";
-    }
-
-    @GetMapping("/customers/edit/{id}")
-    public String showUpdateForm(@PathVariable("id") long id, Model model) {
-        Customer customer = customerRepository.findById((int) id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid customer Id:" + id));
-        model.addAttribute("customer", customer);
-        return "update-customer";
-    }
-
-    @PostMapping("/customers/update/{id}")
-    public String updateCustomer(@PathVariable("id") long id, @Valid Customer customer, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            customer.setCustid((int) id);
-            return "update-customer";
-        }
-        customerRepository.save(customer);
-        return "redirect:/customers/list";
-    }
-
-    @GetMapping("/customers/delete/{id}")
-    public String deleteCustomer(@PathVariable("id") long id, Model model) {
-        Customer customer = customerRepository.findById((int) id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid customer Id:" + id));
-        customerRepository.delete(customer);
-        return "redirect:/customers/list";
-    }
-
     @GetMapping("/checkout")
-    public String checkout(Model model) {
+    public String checkout(@RequestParam("selectedRoom") String selectedRoom,
+                           @RequestParam("checkin") String checkin,
+                           @RequestParam("checkout") String checkout,
+                           @RequestParam("counterValueAdult") int counterValueAdult,
+                           @RequestParam("counterValueChild") int counterValueChild,
+                           Model model) {
+        model.addAttribute("selectedRoom", selectedRoom);
+        model.addAttribute("checkin", checkin);
+        model.addAttribute("checkout", checkout);
+        model.addAttribute("counterValueAdult", counterValueAdult);
+        model.addAttribute("counterValueChild", counterValueChild);
         model.addAttribute("payment", new Payment());
-        return "checkout"; // Ensure this matches the template name
+        return "checkout";
     }
 
     @PostMapping("/checkout")
-    public String addPayment(@Valid Payment payment, BindingResult result, Model model, @RequestParam("selectedRoom") String selectedRoom, @RequestParam("checkin") String checkin, @RequestParam("checkout") String checkout) {
+    public String addPayment(@Valid Payment payment, BindingResult result,
+                             @RequestParam("selectedRoom") String selectedRoom,
+                             @RequestParam("checkin") String checkin,
+                             @RequestParam("checkout") String checkout,
+                             Model model) {
         if (result.hasErrors()) {
             return "checkout";
         }
 
+        // Retrieve room information
         Room room = roomRepository.findByRoomType(selectedRoom);
         if (room == null) {
             result.rejectValue("roomType", "error.roomType", "Invalid room type selected");
             return "checkout";
         }
 
+        // Calculate total price based on selected dates
         LocalDate checkinDate = LocalDate.parse(checkin);
         LocalDate checkoutDate = LocalDate.parse(checkout);
-
         long daysBetween = ChronoUnit.DAYS.between(checkinDate, checkoutDate);
         double totalPrice = room.getPrice() * daysBetween;
 
+        // Set payment details
         payment.setPaymentDate(new Date());
         payment.setTotalPrice(totalPrice);
         payment.setCheckinDate(Date.from(checkinDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         payment.setCheckoutDate(Date.from(checkoutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        paymentRepository.save(payment);
+        payment.setRoomType(selectedRoom); // Set room type in payment
 
-        // Assuming you create a booking for the payment
+        // Create booking details
         Booking booking = new Booking();
         booking.setStart(Date.from(checkinDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         booking.setEndDate(Date.from(checkoutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        booking.setBookDate(new Date());
         booking.setNotes("Booking notes");
         booking.setStatus("Confirmed");
-        booking = bookingRepository.save(booking);
+        bookingRepository.save(booking);
 
-        // Link the booking to the payment
+        // Link payment with booking and save
         payment.setBooking(booking);
         paymentRepository.save(payment);
 
@@ -135,9 +106,13 @@ public class CustomerController {
 
     @GetMapping("/confirmation")
     public String confirmation(@RequestParam Integer bookingId, Model model) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid booking Id:" + bookingId));
+        Booking booking = bookingRepository.findById(bookingId).orElse(null);
+        if (booking == null) {
+            model.addAttribute("errorMessage", "Booking not found");
+            return "error"; // Redirect to an error page or handle appropriately
+        }
         model.addAttribute("booking", booking);
-        return "bookingconfirmation";
+        return "bookingconfirmation"; // Return the correct Thymeleaf template name
     }
+
 }

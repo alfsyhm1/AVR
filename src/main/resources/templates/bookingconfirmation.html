@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <link rel="stylesheet" href="../static/CBookingconfirmation.css">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
 </div>
 
 <div class="booking-confirmation">
-  <img src="../static/LogoMain.png" alt="Confirmation Image">
+  <img src="../static/img/LogoMain.png" alt="Confirmation Image">
   <div class="confirmation-text">
     <div class="title">Booking Confirmed!</div>
     <div class="details">Here are the details of your booking</div>
@@ -21,27 +21,25 @@
       <div class="column">
         <div class="detail">
           <div class="label">Guest’s Name</div>
-          <div class="value">John Dale</div>
+          <span th:text="${booking.notes}">Guest Name</span>
         </div>
         <div class="detail">
           <div class="label">Room Type</div>
-          <div class="value">Deluxe</div>
+          <span th:text="${booking.status}">Room Type</span>
         </div>
       </div>
       <div class="column">
         <div class="detail">
           <div class="label">Check-in</div>
-          <div class="value">28/08/2024</div>
+          <span th:text="${booking.start}">Check-in Date</span>
         </div>
         <div class="detail">
           <div class="label">Check-out</div>
-          <div class="value">29/08/2024</div>
+          <span th:text="${booking.endDate}">Check-out Date</span>
         </div>
       </div>
     </div>
   </div>
-</div>
-</div>
 </div>
 </body>
 </html>
