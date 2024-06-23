@@ -21,15 +21,20 @@ public class Room {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "price")
+    private double price;
+
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL)
     private Set<Customer> customers = new HashSet<>();
 
-    public Room() {}
+    public Room() {
+    }
 
-    public Room(Integer roomId, Integer nights, String description) {
+    public Room(Integer roomId, Integer nights, String description, double price) {
         this.roomId = roomId;
         this.nights = nights;
         this.description = description;
+        this.price = price;
     }
 
     public Integer getRoomId() {
@@ -64,6 +69,14 @@ public class Room {
         this.description = description;
     }
 
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public Set<Customer> getCustomers() {
         return customers;
     }
@@ -71,8 +84,6 @@ public class Room {
     public void setCustomers(Set<Customer> customers) {
         this.customers = customers;
     }
-
-
 
 
     @Override
@@ -83,6 +94,7 @@ public class Room {
                 ", nights=" + nights +
                 ", desc='" + description + '\'' +
                 ", customers=" + customers +
+                ", price=" + price + '\'' +
                 '}';
     }
 }
