@@ -133,7 +133,8 @@ public class CustomerController {
         long daysBetween = ChronoUnit.DAYS.between(checkinDate, checkoutDate);
         double totalPrice = room.getPrice() * daysBetween;
 
-        payment.setPaymentDate(new Date());
+        Date currentDate = new Date();
+        payment.setPaymentDate(currentDate);
         payment.setTotalPrice(totalPrice);
         payment.setRoomType(selectedRoom); // Ensure room type is set
         payment.setCheckinDate(Date.from(checkinDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -142,6 +143,7 @@ public class CustomerController {
         Booking booking = new Booking();
         booking.setStart(Date.from(checkinDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         booking.setEndDate(Date.from(checkoutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        booking.setBookDate(currentDate); // Set book_date to current date
         booking.setNotes(payment.getCardholderName()); // Using cardholder name as guest name
         booking.setStatus("Confirmed");
         booking.setRoomType(selectedRoom);  // Ensure room type is set in Booking
