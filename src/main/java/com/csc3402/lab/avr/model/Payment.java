@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-
 import java.util.Date;
 
 @Entity
@@ -54,7 +53,6 @@ public class Payment {
     }
 
     // Getters and setters
-
     public Integer getPaymentId() {
         return paymentId;
     }
@@ -158,5 +156,11 @@ public class Payment {
                 ", checkoutDate=" + checkoutDate +
                 ", booking=" + booking +
                 '}';
+    }
+
+    public void setAdults(int counterValueAdult) {
+    }
+
+    public void setChildren(int counterValueChild) {
     }
 }

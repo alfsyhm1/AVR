@@ -1,11 +1,8 @@
 package com.csc3402.lab.avr.controller;
 
-import com.csc3402.lab.avr.model.Booking;
-import com.csc3402.lab.avr.model.Payment;
-import com.csc3402.lab.avr.model.Room;
-import com.csc3402.lab.avr.repository.BookingRepository;
-import com.csc3402.lab.avr.repository.PaymentRepository;
-import com.csc3402.lab.avr.repository.RoomRepository;
+import com.csc3402.lab.avr.model.*;
+import com.csc3402.lab.avr.repository.*;
+import com.csc3402.lab.avr.service.BookingService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,16 +28,68 @@ public class CustomerController {
     private RoomRepository roomRepository;
 
     @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
     private PaymentRepository paymentRepository;
 
     @Autowired
     private BookingRepository bookingRepository;
+
+    @Autowired
+    private BookingService bookingService;
 
     @GetMapping("/")
     public String home(Model model) {
         List<Room> rooms = roomRepository.findAll();
         model.addAttribute("rooms", rooms);
         return "index";
+    }
+
+    @GetMapping("/customers/list")
+    public String showCustomerList(Model model) {
+        model.addAttribute("customers", customerRepository.findAll());
+        return "list-customer";
+    }
+
+    @GetMapping("/customers/signup")
+    public String showSignUpForm(Customer customer) {
+        return "register";
+    }
+
+    @PostMapping("/customers/add")
+    public String addCustomer(@Valid Customer customer, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "register";
+        }
+        customerRepository.save(customer);
+        return "redirect:/customers/list";
+    }
+
+    @GetMapping("/customers/edit/{id}")
+    public String showUpdateForm(@PathVariable("id") long id, Model model) {
+        Customer customer = customerRepository.findById((int) id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid customer Id:" + id));
+        model.addAttribute("customer", customer);
+        return "update-customer";
+    }
+
+    @PostMapping("/customers/update/{id}")
+    public String updateCustomer(@PathVariable("id") long id, @Valid Customer customer, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            customer.setCustid((int) id);
+            return "update-customer";
+        }
+        customerRepository.save(customer);
+        return "redirect:/customers/list";
+    }
+
+    @GetMapping("/customers/delete/{id}")
+    public String deleteCustomer(@PathVariable("id") long id, Model model) {
+        Customer customer = customerRepository.findById((int) id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid customer Id:" + id));
+        customerRepository.delete(customer);
+        return "redirect:/customers/list";
     }
 
     @GetMapping("/checkout")
@@ -60,36 +109,31 @@ public class CustomerController {
     }
 
     @PostMapping("/checkout")
-    public String addPayment(@Valid Payment payment, BindingResult result,
+    public String addPayment(@Valid Payment payment, BindingResult result, Model model,
                              @RequestParam("selectedRoom") String selectedRoom,
                              @RequestParam("checkin") String checkin,
-                             @RequestParam("checkout") String checkout,
-                             Model model) {
+                             @RequestParam("checkout") String checkout) {
         if (result.hasErrors()) {
             return "checkout";
         }
 
-        // Retrieve room information
         Room room = roomRepository.findByRoomType(selectedRoom);
         if (room == null) {
             result.rejectValue("roomType", "error.roomType", "Invalid room type selected");
             return "checkout";
         }
 
-        // Calculate total price based on selected dates
         LocalDate checkinDate = LocalDate.parse(checkin);
         LocalDate checkoutDate = LocalDate.parse(checkout);
+
         long daysBetween = ChronoUnit.DAYS.between(checkinDate, checkoutDate);
         double totalPrice = room.getPrice() * daysBetween;
 
-        // Set payment details
         payment.setPaymentDate(new Date());
         payment.setTotalPrice(totalPrice);
         payment.setCheckinDate(Date.from(checkinDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         payment.setCheckoutDate(Date.from(checkoutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        payment.setRoomType(selectedRoom); // Set room type in payment
 
-        // Create booking details
         Booking booking = new Booking();
         booking.setStart(Date.from(checkinDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         booking.setEndDate(Date.from(checkoutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -97,7 +141,6 @@ public class CustomerController {
         booking.setStatus("Confirmed");
         bookingRepository.save(booking);
 
-        // Link payment with booking and save
         payment.setBooking(booking);
         paymentRepository.save(payment);
 

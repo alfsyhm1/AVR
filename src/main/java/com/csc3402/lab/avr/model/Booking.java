@@ -17,17 +17,6 @@ public class Booking {
     private String notes;
     private String status;
 
-    public Booking() {
-    }
-
-    public Booking(Date start, Date endDate, Date bookDate, String notes, String status) {
-        this.start = start;
-        this.endDate = endDate;
-        this.bookDate = bookDate;
-        this.notes = notes;
-        this.status = status;
-    }
-
     // Getters and setters
     public int getBookingId() {
         return bookingId;
