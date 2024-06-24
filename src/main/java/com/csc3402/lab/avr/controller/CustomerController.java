@@ -2,10 +2,7 @@ package com.csc3402.lab.avr.controller;
 
 import com.csc3402.lab.avr.model.*;
 import com.csc3402.lab.avr.repository.*;
-import com.csc3402.lab.avr.service.BookingService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +19,6 @@ import java.util.List;
 @RequestMapping("/")
 public class CustomerController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
-
     @Autowired
     private RoomRepository roomRepository;
 
@@ -35,9 +30,6 @@ public class CustomerController {
 
     @Autowired
     private BookingRepository bookingRepository;
-
-    @Autowired
-    private BookingService bookingService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -143,6 +135,7 @@ public class CustomerController {
 
         payment.setPaymentDate(new Date());
         payment.setTotalPrice(totalPrice);
+        payment.setRoomType(selectedRoom); // Ensure room type is set
         payment.setCheckinDate(Date.from(checkinDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         payment.setCheckoutDate(Date.from(checkoutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
@@ -151,7 +144,7 @@ public class CustomerController {
         booking.setEndDate(Date.from(checkoutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         booking.setNotes(payment.getCardholderName()); // Using cardholder name as guest name
         booking.setStatus("Confirmed");
-        booking.setRoomType(selectedRoom);  // Assuming this field exists in Booking
+        booking.setRoomType(selectedRoom);  // Ensure room type is set in Booking
         bookingRepository.save(booking);
 
         payment.setBooking(booking);
@@ -168,8 +161,9 @@ public class CustomerController {
             return "error";
         }
 
-        // Assuming that you want to get the first customer
-        Customer customer = booking.getCustomers().stream().findFirst().orElse(null);
+        List<Customer> customers = customerRepository.findByBooking_BookingId(bookingId);
+        Customer customer = customers.isEmpty() ? null : customers.get(0);
+
         model.addAttribute("booking", booking);
         model.addAttribute("customer", customer);
         return "bookingconfirmation";
