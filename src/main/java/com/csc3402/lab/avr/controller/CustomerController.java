@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
@@ -133,7 +134,8 @@ public class CustomerController {
         long daysBetween = ChronoUnit.DAYS.between(checkinDate, checkoutDate);
         double totalPrice = room.getPrice() * daysBetween;
 
-        Date currentDate = new Date();
+        LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
+        Date currentDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
         payment.setPaymentDate(currentDate);
         payment.setTotalPrice(totalPrice);
         payment.setRoomType(selectedRoom); // Ensure room type is set
