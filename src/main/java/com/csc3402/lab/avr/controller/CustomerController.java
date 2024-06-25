@@ -193,6 +193,6 @@ public class CustomerController {
             return "error";
         }
         model.addAttribute("booking", booking);
-        return "bookingconfirmation";
+        return "bookingconfirmation"
     }
 }
