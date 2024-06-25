@@ -33,6 +33,33 @@ public class CustomerController {
     private BookingRepository bookingRepository;
 
     @GetMapping("/")
+    public String redirectToSignIn() {
+        return "redirect:/signin";
+    }
+
+    @GetMapping("/signin")
+    public String showSignInForm(Model model) {
+        model.addAttribute("loginForm", new LoginForm());
+        return "signin";
+    }
+
+    @PostMapping("/signin")
+    public String signIn(@Valid @ModelAttribute("loginForm") LoginForm loginForm, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "signin";
+        }
+
+        Customer customer = customerRepository.findByEmail(loginForm.getEmail());
+        if (customer != null && customer.getPassword().equals(loginForm.getPassword())) {
+            model.addAttribute("customer", customer);
+            return "redirect:/index";
+        }
+
+        result.rejectValue("password", "error.loginForm", "Invalid email or password");
+        return "signin";
+    }
+
+    @GetMapping("/index")
     public String home(Model model) {
         List<Room> rooms = roomRepository.findAll();
         model.addAttribute("rooms", rooms);
@@ -56,7 +83,7 @@ public class CustomerController {
             return "register";
         }
         customerRepository.save(customer);
-        return "redirect:/customers/list";
+        return "redirect:/signin";
     }
 
     @GetMapping("/customers/edit/{id}")
@@ -138,17 +165,17 @@ public class CustomerController {
         Date currentDate = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
         payment.setPaymentDate(currentDate);
         payment.setTotalPrice(totalPrice);
-        payment.setRoomType(selectedRoom); // Ensure room type is set
+        payment.setRoomType(selectedRoom);
         payment.setCheckinDate(Date.from(checkinDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         payment.setCheckoutDate(Date.from(checkoutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
         Booking booking = new Booking();
         booking.setStart(Date.from(checkinDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         booking.setEndDate(Date.from(checkoutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        booking.setBookDate(currentDate); // Set book_date to current date
-        booking.setNotes(payment.getCardholderName()); // Using cardholder name as guest name
+        booking.setBookDate(currentDate);
+        booking.setNotes(payment.getCardholderName());
         booking.setStatus("Confirmed");
-        booking.setRoomType(selectedRoom);  // Ensure room type is set in Booking
+        booking.setRoomType(selectedRoom);
         bookingRepository.save(booking);
 
         payment.setBooking(booking);

@@ -10,10 +10,10 @@ INSERT INTO booking (start, end_date, book_date, notes, room_type, status) VALUE
 INSERT INTO booking (start, end_date, book_date, notes, room_type, status) VALUES ('2024-09-25', '2024-09-28', '2024-09-23', 'Booking notes 4', 'Deluxe', 'Cancelled');
 
 -- Insert customers
-INSERT INTO customer (first_name, last_name, email, phone, booking_id) VALUES ('James', 'Dean', 'jd38@gmail.com', '0193899839', 1);
-INSERT INTO customer (first_name, last_name, email, phone, booking_id) VALUES ('Ali', 'James', 'aj112@gmail.com', '0194999890', 2);
-INSERT INTO customer (first_name, last_name, email, phone, booking_id) VALUES ('Samad', 'Bond', 'sb189@gmail.com', '0193783890', 3);
-INSERT INTO customer (first_name, last_name, email, phone, booking_id) VALUES ('Sarip', 'John', 'sj134@gmail.com', '0191297890', 4);
+INSERT INTO customer (full_name, email, booking_id) VALUES ('James Dean', 'jd38@gmail.com', 1);
+INSERT INTO customer (full_name, email, booking_id) VALUES ('Ali James', 'aj112@gmail.com', 2);
+INSERT INTO customer (full_name, email, booking_id) VALUES ('Samad Bond', 'sb189@gmail.com', 3);
+INSERT INTO customer (full_name, email, booking_id) VALUES ('Sarip John', 'sj134@gmail.com', 4);
 
 -- Insert payments
 INSERT INTO payment (cardholder_name, card_number, exp_date, cvc, total_price, payment_date, room_type, checkin_date, checkout_date, booking_id)

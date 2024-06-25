@@ -9,14 +9,14 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int custid;
 
-    @NotBlank(message = "First name is mandatory")
-    private String firstName;
-
-    @NotBlank(message = "Last name is mandatory")
-    private String lastName;
+    @NotBlank(message = "Full name is mandatory")
+    private String fullName;
 
     @NotBlank(message = "Email is mandatory")
     private String email;
+
+    @NotBlank(message = "Password is mandatory")
+    private String password;
 
     private String phone;
 
@@ -26,11 +26,10 @@ public class Customer {
 
     public Customer() {}
 
-    public Customer(String firstName, String lastName, String email, String phone, Booking booking) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Customer(String fullName, String email, String password, Booking booking) {
+        this.fullName = fullName;
         this.email = email;
-        this.phone = phone;
+        this.password = password;
         this.booking = booking;
     }
 
@@ -43,20 +42,12 @@ public class Customer {
         this.custid = custid;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -67,13 +58,6 @@ public class Customer {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
     public Booking getBooking() {
         return booking;
@@ -83,14 +67,21 @@ public class Customer {
         this.booking = booking;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
                 "custid=" + custid +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
+                ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
-                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
                 ", booking=" + booking +
                 '}';
     }
