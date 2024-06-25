@@ -53,7 +53,7 @@ public class CustomerController {
         if (customer != null && customer.getPassword().equals(loginForm.getPassword())) {
             model.addAttribute("customer", customer);
             return "redirect:/index";
-        }
+        };
 
         result.rejectValue("password", "error.loginForm", "Invalid email or password");
         return "signin";
