@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
-    List<Customer> findByBooking_BookingId(Integer bookingId);
 
     Customer findByEmail(String email);
+
 }

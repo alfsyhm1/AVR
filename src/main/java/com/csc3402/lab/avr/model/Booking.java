@@ -7,44 +7,39 @@ import java.util.Set;
 
 @Entity
 public class Booking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookingId;
+
+    @Temporal(TemporalType.DATE)
     private Date start;
+
+    @Temporal(TemporalType.DATE)
     private Date endDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date bookDate;
+
     private String notes;
     private String status;
     private String roomType;
 
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
-    private Set<Customer> customers;
-
-    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
     private Set<Payment> payments;
 
+    // Constructors
     public Booking() {
     }
 
-    public Booking(Date start, Date endDate, Date bookDate, String notes, String status, String roomType, Set<Customer> customers, Set<Payment> payments) {
+    public Booking(Date start, Date endDate, Date bookDate, String notes, String status, String roomType) {
         this.start = start;
         this.endDate = endDate;
         this.bookDate = bookDate;
         this.notes = notes;
         this.status = status;
         this.roomType = roomType;
-        this.customers = customers;
-        this.payments = payments;
     }
-
-    public Booking(Date start, Date endDate, Date bookDate, String notes, String status) {
-        this.start = start;
-        this.endDate = endDate;
-        this.bookDate = bookDate;
-        this.notes = notes;
-        this.status = status;
-    }
-
 
     // Getters and setters
     public int getBookingId() {
@@ -103,13 +98,6 @@ public class Booking {
         this.roomType = roomType;
     }
 
-    public Set<Customer> getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(Set<Customer> customers) {
-        this.customers = customers;
-    }
 
     public Set<Payment> getPayments() {
         return payments;
@@ -118,8 +106,6 @@ public class Booking {
     public void setPayments(Set<Payment> payments) {
         this.payments = payments;
     }
-
-
 
     @Override
     public String toString() {
@@ -131,7 +117,6 @@ public class Booking {
                 ", notes='" + notes + '\'' +
                 ", status='" + status + '\'' +
                 ", roomType='" + roomType + '\'' +
-                ", customers=" + customers +
                 ", payments=" + payments +
                 '}';
     }

@@ -15,6 +15,7 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/")
@@ -39,23 +40,23 @@ public class CustomerController {
 
     @GetMapping("/signin")
     public String showSignInForm(Model model) {
-        model.addAttribute("loginForm", new LoginForm());
+        model.addAttribute("customer", new Customer());
         return "signin";
     }
 
     @PostMapping("/signin")
-    public String signIn(@Valid @ModelAttribute("loginForm") LoginForm loginForm, BindingResult result, Model model) {
+    public String signIn(@Valid @ModelAttribute("customer") Customer customer, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "signin";
         }
 
-        Customer customer = customerRepository.findByEmail(loginForm.getEmail());
-        if (customer != null && customer.getPassword().equals(loginForm.getPassword())) {
-            model.addAttribute("customer", customer);
+        Customer existingCustomer = customerRepository.findByEmail(customer.getEmail());
+        if (existingCustomer != null && existingCustomer.getPassword().equals(customer.getPassword())) {
+            model.addAttribute("customer", existingCustomer);
             return "redirect:/index";
         }
 
-        result.rejectValue("password", "error.loginForm", "Invalid email or password");
+        result.rejectValue("password", "error.customer", "Invalid email or password");
         return "signin";
     }
 
@@ -191,12 +192,7 @@ public class CustomerController {
             model.addAttribute("errorMessage", "Booking not found");
             return "error";
         }
-
-        List<Customer> customers = customerRepository.findByBooking_BookingId(bookingId);
-        Customer customer = customers.isEmpty() ? null : customers.get(0);
-
         model.addAttribute("booking", booking);
-        model.addAttribute("customer", customer);
         return "bookingconfirmation";
     }
 }

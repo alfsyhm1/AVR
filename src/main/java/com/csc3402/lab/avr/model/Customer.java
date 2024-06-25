@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Customer {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int custid;
@@ -18,19 +19,16 @@ public class Customer {
     @NotBlank(message = "Password is mandatory")
     private String password;
 
-    private String phone;
 
-    @ManyToOne
-    @JoinColumn(name = "booking_id")
-    private Booking booking;
 
-    public Customer() {}
+    // Constructors
+    public Customer() {
+    }
 
-    public Customer(String fullName, String email, String password, Booking booking) {
+    public Customer(String fullName, String email, String password) {
         this.fullName = fullName;
         this.email = email;
         this.password = password;
-        this.booking = booking;
     }
 
     // Getters and setters
@@ -58,15 +56,6 @@ public class Customer {
         this.email = email;
     }
 
-
-    public Booking getBooking() {
-        return booking;
-    }
-
-    public void setBooking(Booking booking) {
-        this.booking = booking;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -75,6 +64,7 @@ public class Customer {
         this.password = password;
     }
 
+
     @Override
     public String toString() {
         return "Customer{" +
@@ -82,7 +72,6 @@ public class Customer {
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", booking=" + booking +
                 '}';
     }
 }
