@@ -1,6 +1,6 @@
 -- Insert rooms
 INSERT INTO room (room_type, price, desc) VALUES ('Standard', 350.00, 'Standard room description');
-INSERT INTO room (room_type, price, desc) VALUES ('Deluxe', 5500.00, 'Deluxe room description');
+INSERT INTO room (room_type, price, desc) VALUES ('Deluxe', 550.00, 'Deluxe room description');
 INSERT INTO room (room_type, price, desc) VALUES ('Suite', 650.00, 'Suite room description');
 
 -- Insert bookings
