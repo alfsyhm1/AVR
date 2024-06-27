@@ -15,7 +15,6 @@ import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/")
@@ -174,7 +173,7 @@ public class CustomerController {
         booking.setStart(Date.from(checkinDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         booking.setEndDate(Date.from(checkoutDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
         booking.setBookDate(currentDate);
-        booking.setNotes(payment.getCardholderName());
+        booking.setName(payment.getCardholderName());
         booking.setStatus("Confirmed");
         booking.setRoomType(selectedRoom);
         bookingRepository.save(booking);

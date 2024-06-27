@@ -118,7 +118,7 @@ a {
     border: 2px solid #5E6073;
 }
 
-.payment-details {
+.payment-details form {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -177,6 +177,7 @@ a {
     justify-content: center;
     align-items: center;
     color: #5E6073;
+    background-color: unset;
     font-size: 20px;
     font-weight: 700;
     font-family: 'Playfair Display', serif; /* Added Playfair Display font */
@@ -189,4 +190,14 @@ input{
 
 input::placeholder{
     opacity: 50%;
+}
+
+input:hover{
+    border: 3px solid black;
+    color: black;
+}
+
+.pay-now-button:hover{
+    border: 3px solid black;
+    color: black;
 }

@@ -21,7 +21,7 @@ public class Booking {
     @Temporal(TemporalType.TIMESTAMP)
     private Date bookDate;
 
-    private String notes;
+    private String name;
     private String status;
     private String roomType;
 
@@ -32,11 +32,11 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(Date start, Date endDate, Date bookDate, String notes, String status, String roomType) {
+    public Booking(Date start, Date endDate, Date bookDate, String name, String status, String roomType) {
         this.start = start;
         this.endDate = endDate;
         this.bookDate = bookDate;
-        this.notes = notes;
+        this.name = name;
         this.status = status;
         this.roomType = roomType;
     }
@@ -74,12 +74,12 @@ public class Booking {
         this.bookDate = bookDate;
     }
 
-    public String getNotes() {
-        return notes;
+    public String getName() {
+        return name;
     }
 
-    public void setNotes(String notes) {
-        this.notes = notes;
+    public void setName(String notes) {
+        this.name = notes;
     }
 
     public String getStatus() {
@@ -114,7 +114,7 @@ public class Booking {
                 ", start=" + start +
                 ", endDate=" + endDate +
                 ", bookDate=" + bookDate +
-                ", notes='" + notes + '\'' +
+                ", name='" + name + '\'' +
                 ", status='" + status + '\'' +
                 ", roomType='" + roomType + '\'' +
                 ", payments=" + payments +

@@ -79,6 +79,10 @@ a {
 input{
   background-color: unset;
 }
+
+.navbutton{
+  background-color: unset;
+}
 /*Navbar*********************************************************************************************/
 
 
@@ -501,3 +505,17 @@ input[type="date"]{
   margin: 0;
 }
 
+.circlebutton{
+  background-color: unset;
+  border: 2px solid #34495e;
+  border-radius: 50px;
+  width: 30px;
+  height: 30px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.circlebutton:hover{
+  box-shadow: 1px 1px 10px #5e6072;
+}

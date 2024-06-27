@@ -22,7 +22,7 @@
       <div class="column">
         <div class="detail">
           <div class="label">Guest’s Name</div>
-          <div class="value" th:text="${customer != null ? customer.firstName + ' ' + customer.lastName : booking.notes}">Guest Name</div>
+          <div class="value" th:text="${customer != null ? customer.firstName + ' ' + customer.lastName : booking.name}">Guest Name</div>
         </div>
         <div class="detail">
           <div class="label">Room Type</div>
