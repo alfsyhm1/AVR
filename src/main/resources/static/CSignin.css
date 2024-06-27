@@ -121,6 +121,11 @@ p1 {
   line-height: normal;
 }
 
+.buttonA:hover{
+  border: 2px solid black;
+  color: black;
+}
+
 .buttonB {
   display: flex;
   width: 372px;
@@ -138,5 +143,9 @@ p1 {
   font-weight: 700;
   line-height: normal;
 
+}
+
+input:hover{
+  border: 2px solid black;
 }
 

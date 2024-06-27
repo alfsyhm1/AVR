@@ -101,4 +101,7 @@ input{
   line-height: normal;
 }
 
+input:hover{
+  border: 2px solid black;
+}
 
